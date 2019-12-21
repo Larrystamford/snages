@@ -29,12 +29,12 @@ interface TableState {
 }
 
 interface Props {
-  onClick: (values: Row) => void;
+  onClick: (event: any, data: RowData | RowData[] | null ) => void;
   rows: Array<{ Row }>;
 }
 
 export const PostingsTable: React.FC<Props> = ({ rows, onClick }) => {
-  const [state, setState] = React.useState<TableState>({
+  const [state, setState] = React.useState<TableState | any>({
     columns: [
       { title: "Id", field: "id" },
       { title: "Company", field: "company" },
@@ -78,10 +78,10 @@ export const PostingsTable: React.FC<Props> = ({ rows, onClick }) => {
                 resolve();
                 setState(prevState => {
                   const data = [...prevState.data];
-                  console.log(oldData)
+                  console.log("posting", oldData)
                   // splice(which index, how many to remove, new data)
                   data.splice(data.indexOf(oldData), 1);
-                  
+                  console.log("posting", data)
                   return { ...prevState, data };
                 });
               }, 600);
