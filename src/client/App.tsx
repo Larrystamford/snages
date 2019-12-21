@@ -4,6 +4,7 @@ import { MyForm } from "./MyForm";
 import { MyTable } from "./MyTable";
 import { DisplayTable } from "./DisplayTable";
 import { PostingsTable } from "./PostingsTable";
+import { PersonalTable } from "./PersonalTable";
 import { useFetch } from "./useFetch";
 import { useState } from "react";
 import { generate } from "shortid";
@@ -20,20 +21,28 @@ const App = () => {
       {/* <span>{JSON.stringify(data)}</span> */}
 
       <PostingsTable
-        rows={[...data]}
-        onClick={submitData => {
-          setRows(currentRows => [
-            ...currentRows,
-            {
-              ...submitData,
-              //put below to overwrite id
-              // id: 23
+        rows={...data}
+        onClick={rowData => {
+          var postingExist = false;
+          rows.forEach(item => {
+            if (item.id == rowData.id) {
+              postingExist = true;
             }
-          ]);
+          });
+          postingExist
+            ? alert("Preventing Duplicate Postings.")
+            : setRows(currentRows => [
+                ...currentRows,
+                {
+                  ...rowData
+                  // id: generate()
+                  // put below current rows
+                }
+              ]);
         }}
       />
 
-      <DisplayTable rows={[...data]} />
+      <DisplayTable rows={...data} />
 
       <MyForm
         onSubmit={submitData => {
@@ -48,6 +57,7 @@ const App = () => {
       />
       {/* Note that ... spreads both array and objects */}
       <MyTable rows={rows} />
+      <PersonalTable rows={rows} />
     </main>
   );
 };
