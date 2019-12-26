@@ -3,6 +3,7 @@ import MaterialTable, { Column } from "material-table";
 import { makeStyles } from "@material-ui/core/styles";
 import { stat } from "fs";
 import { useEffect, useState } from "react";
+import { usePersonalTable } from "./usePersonalTable";
 
 const useStyles = makeStyles({
   table: {
@@ -31,10 +32,10 @@ interface TableState {
 }
 
 interface Props {
-  rows: Array<{ Row }>;
+  row: Array<{ Row }>;
 }
 
-export const PersonalTable: React.FC<Props> = ({ rows }) => {
+export const PersonalTable: React.FC<Props> = ({ row }) => {
   const [table, setTable] = React.useState<TableState>({
     columns: [
       { title: "Id", field: "id" },
@@ -55,25 +56,59 @@ export const PersonalTable: React.FC<Props> = ({ rows }) => {
 
   useEffect(() => {
     // console.log("effectTable", table);
-    setTable(table => {
-      const data = [];
-      data.push(...rows);
-      return { ...table, data };
+    var postingExist = false;
+    table.data.forEach(item => {
+      // console.log("rowId ", row[0].id);
+      if (item.id == row[0].id) {
+        postingExist = true;
+      }
     });
-    console.log("hellp");
-  }, [rows]);
+    postingExist
+      ? alert("Preventing Duplicate Postings")
+      : setTable(prevState => {
+          const data = [...prevState.data];
+          data.push(...row);
+          return { ...prevState, data };
+        });
+  }, [row]);
 
   return (
-    <div>
-      {/* <span>{JSON.stringify(rows)}</span> */}
+    <div className="container my-5">
       <span>{JSON.stringify(table.data)}</span>
       <MaterialTable
         title="Personal Table"
         columns={table.columns}
-        // data={rows.map(row => ({ ...row }))}
+        // data={row.map(row => ({ ...row }))}
         data={table.data}
-        // onChange={console.log(rows)}
-
+        // onChange={console.log(row)}
+        editable={{
+          onRowAdd: newData =>
+            new Promise(resolve => {
+              setTimeout(() => {
+                resolve();
+                setTable(prevState => {
+                  // console.log("newData ", newData);
+                  // console.log("prev State ", prevState);
+                  const data = [...prevState.data];
+                  data.push(newData);
+                  return { ...prevState, data };
+                });
+              }, 600);
+            }),
+          onRowUpdate: (newData, oldData) =>
+            new Promise(resolve => {
+              setTimeout(() => {
+                resolve();
+                if (oldData) {
+                  setTable(prevState => {
+                    const data = [...prevState.data];
+                    data[data.indexOf(oldData)] = newData;
+                    return { ...prevState, data };
+                  });
+                }
+              }, 600);
+            })
+        }}
         actions={[
           {
             icon: "delete",
@@ -95,20 +130,8 @@ export const PersonalTable: React.FC<Props> = ({ rows }) => {
               })
           }
         ]}
-        editable={{
-          onRowAdd: newData =>
-            new Promise(resolve => {
-              setTimeout(() => {
-                resolve();
-                setTable(prevState => {
-                  // console.log("newData ", newData);
-                  // console.log("prev State ", prevState);
-                  const data = [...prevState.data];
-                  data.push(newData);
-                  return { ...prevState, data };
-                });
-              }, 600);
-            })
+        options={{
+          actionsColumnIndex: -1
         }}
       />
     </div>

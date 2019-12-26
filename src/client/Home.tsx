@@ -23,8 +23,6 @@ const App = () => {
   return (
     // <main className="container my-5">
     <main>
-      <NavBar className="main" />
-
       <PostingsTable
         rows={...data}
         onClick={rowData => {

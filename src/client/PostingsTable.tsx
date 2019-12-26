@@ -1,10 +1,12 @@
 import React from "react";
 import MaterialTable, { Column } from "material-table";
 import { makeStyles } from "@material-ui/core/styles";
+import withWidth from "material-ui/utils/withWidth";
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 650
+    minWidth: 650,
+    width: 700
   }
 });
 
@@ -29,11 +31,12 @@ interface TableState {
 }
 
 interface Props {
-  onClick: (event: any, data: RowData | RowData[] | null ) => void;
+  onClick: (event: any, data: RowData | RowData[] | null) => void;
   rows: Array<{ Row }>;
 }
 
 export const PostingsTable: React.FC<Props> = ({ rows, onClick }) => {
+  const classes = useStyles();
   const [state, setState] = React.useState<TableState | any>({
     columns: [
       { title: "Id", field: "id" },
@@ -54,13 +57,13 @@ export const PostingsTable: React.FC<Props> = ({ rows, onClick }) => {
   });
 
   return (
-    <div>
-      <span>{JSON.stringify(rows)}</span>
+    <div className="container my-5">
+      {/* <span>{JSON.stringify(rows)}</span> */}
       <MaterialTable
         title="Internship Listings"
         columns={state.columns}
         // data={rows.map(row => ({ ...row }))}
-        data = {state.data}
+        data={state.data}
         actions={[
           {
             icon: "save",
@@ -69,26 +72,23 @@ export const PostingsTable: React.FC<Props> = ({ rows, onClick }) => {
               onClick(rowData);
             }
           }
-          {
-            icon: "delete",
-            tooltip: "Remove from list",
-            onClick: (event, oldData) =>
+        ]}
+        editable={{
+          onRowDelete: oldData =>
             new Promise(resolve => {
               setTimeout(() => {
                 resolve();
                 setState(prevState => {
                   const data = [...prevState.data];
-                  console.log("posting", oldData)
-                  // splice(which index, how many to remove, new data)
                   data.splice(data.indexOf(oldData), 1);
-                  console.log("posting", data)
                   return { ...prevState, data };
                 });
               }, 600);
             })
-          }
-        ]}
-        
+        }}
+        options={{
+          actionsColumnIndex: -1
+        }}
       />
     </div>
   );
