@@ -1,5 +1,5 @@
 node_modules/
-dist/
+# dist/
 # public/js/app.js
 
 src/server/config
