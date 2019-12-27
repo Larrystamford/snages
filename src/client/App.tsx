@@ -12,63 +12,32 @@ import { generate } from "shortid";
 import * as css from "./myStyles.css";
 
 import { Discussions } from "./Discussions";
+import { Home } from "./Home";
+import { Personal } from "./Personal";
+import { Postings } from "./Postings";
+import { Advertisement } from "./Advertisement";
+import { TableSelection } from "./TableSelection";
+import { BrowserRouter, Route, Link, Switch } from "react-router-dom";
 
 const App = () => {
-  const { data, loading } = useFetch("/api/internships");
-  const [count, setCount] = useState(0);
-  const [rows, setRows] = useState([]);
-  const [row, setRow] = useState([]);
+  // lifted state for PostingTable and PersonalTable
 
-  if (loading) return "Loading...";
   return (
     // <main className="container my-5">
-    <main>
-      <NavBar className="main" />
-
-      <PostingsTable
-        rows={...data}
-        onClick={rowData => {
-          setRow(() => [{ ...rowData }]);
-        }}
-        // onClick={rowData => {
-        //   var postingExist = false;
-        //   rows.forEach(item => {
-        //     if (item.id == rowData.id) {
-        //       postingExist = true;
-        //     }
-        //   });
-        //   postingExist
-        //     ? alert("Preventing Duplicate Postings.")
-        //     : (setRows(currentRows => [
-        //         ...currentRows,
-        //         {
-        //           ...rowData
-        //           // id: generate()
-        //           // put below current rows
-        //         }
-        //       ]),
-        //       setRow(() => [{ ...rowData }]));
-        // }}
-      />
-
-      <PersonalTable row={row} />
-
-      {/* <DisplayTable rows={...data} /> */}
-
-      {/* <MyForm
-        onSubmit={submitData => {
-          setRows(currentRows => [
-            ...currentRows,
-            {
-              id: generate(),
-              ...submitData
-            }
-          ]);
-        }}
-      /> */}
-      {/* Note that ... spreads both array and objects */}
-      {/* <MyTable rows={rows} /> */}
-    </main>
+    <BrowserRouter>
+      <main>
+        <NavBar className="main" />
+        <switch>
+          <Route path="/" exact component={Home} />
+          {/* <Route path="/listings" component={Home} /> */}
+          {/* <Route path="/listings/postings" component={Postings} /> */}
+          <Route path="/listings/personal" exact component={Personal} />
+          <Route path="/discussions" exact component={Discussions} />
+          <Route path="/tableselection" exact component={TableSelection} />
+          {/* <Route path="/" render={() => <div>404 error</div>} /> */}
+        </switch>
+      </main>
+    </BrowserRouter>
   );
 };
 

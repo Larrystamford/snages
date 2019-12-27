@@ -55,26 +55,34 @@ export const PersonalTable: React.FC<Props> = ({ row }) => {
   });
 
   useEffect(() => {
-    // console.log("effectTable", table);
-    var postingExist = false;
-    table.data.forEach(item => {
-      // console.log("rowId ", row[0].id);
-      if (item.id == row[0].id) {
-        postingExist = true;
-      }
+    setTable(prevState => {
+      const data = [...prevState.data];
+      data.push(...row);
+      return { ...prevState, data };
     });
-    postingExist
-      ? alert("Preventing Duplicate Postings")
-      : setTable(prevState => {
-          const data = [...prevState.data];
-          data.push(...row);
-          return { ...prevState, data };
-        });
   }, [row]);
+
+  // useEffect(() => {
+  //   // console.log("effectTable", table);
+  //   var postingExist = false;
+  //   table.data.forEach(item => {
+  //     // console.log("rowId ", row[0].id);
+  //     if (item.id == row[0].id) {
+  //       postingExist = true;
+  //     }
+  //   });
+  //   postingExist
+  //     ? alert("Preventing Duplicate Postings")
+  //     : setTable(prevState => {
+  //         const data = [...prevState.data];
+  //         data.push(...row);
+  //         return { ...prevState, data };
+  //       });
+  // }, [row]);
 
   return (
     <div className="container my-5">
-      <span>{JSON.stringify(table.data)}</span>
+      {/* <span>{JSON.stringify(table.data)}</span> */}
       <MaterialTable
         title="Personal Table"
         columns={table.columns}

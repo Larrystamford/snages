@@ -7,27 +7,36 @@ import { PostingsTable } from "./PostingsTable";
 import { PersonalTable } from "./PersonalTable";
 import { NavBar } from "./NavBar";
 import { useFetch } from "./useFetch";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { generate } from "shortid";
-import * as css from "./myStyles.css";
+import { Advertisement } from "./Advertisement";
+import { TableSelection } from "./TableSelection";
 
-import { Discussions } from "./Discussions";
+import { Link, RouteComponentProps } from "react-router-dom";
+interface Props extends RouteComponentProps {}
 
-const App = () => {
+export const Home: React.FC<Props> = ({ history }) => {
   const { data, loading } = useFetch("/api/internships");
   const [count, setCount] = useState(0);
   const [rows, setRows] = useState([]);
-  const [row, setRow] = useState([]);
 
-  if (loading) return "Loading...";
+  if (loading) return null;
   return (
-    // <main className="container my-5">
-    <main>
+    <div>
+      <Advertisement />
+      <TableSelection historyProp={history} rowProp={rows} />
+      {/* <pre>{JSON.stringify(rows)}</pre> */}
       <PostingsTable
         rows={...data}
         onClick={rowData => {
-          setRow(() => [{ ...rowData }]);
+          console.log("clicked", rowData);
+          setRows(prevState => [...prevState, rowData]);
         }}
+
+        // onClick={rowData => {
+        //   setRow(() => [{ ...rowData }]);
+        // }}
+
         // onClick={rowData => {
         //   var postingExist = false;
         //   rows.forEach(item => {
@@ -49,28 +58,26 @@ const App = () => {
         // }}
       />
 
-      <PersonalTable row={row} />
+      {/* <PersonalTable row={row} /> */}
 
       {/* <DisplayTable rows={...data} /> */}
 
       {/* <MyForm
-        onSubmit={submitData => {
-          setRows(currentRows => [
-            ...currentRows,
-            {
-              id: generate(),
-              ...submitData
-            }
-          ]);
-        }}
-      /> */}
+      onSubmit={submitData => {
+        setRows(currentRows => [
+          ...currentRows,
+          {
+            id: generate(),
+            ...submitData
+          }
+        ]);
+      }}
+    /> */}
       {/* Note that ... spreads both array and objects */}
       {/* <MyTable rows={rows} /> */}
-    </main>
+    </div>
   );
 };
-
-export default App;
 
 {
   /* <div>
