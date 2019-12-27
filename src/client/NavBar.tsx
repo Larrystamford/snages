@@ -20,10 +20,7 @@ import MailIcon from "@material-ui/icons/Mail";
 import NotificationsIcon from "@material-ui/icons/Notifications";
 import MoreIcon from "@material-ui/icons/MoreVert";
 
-import { BrowserRouter, Route, Link } from "react-router-dom";
-import { Discussions } from "./Discussions";
-import { App } from "./App";
-import { Router } from "express";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -151,127 +148,131 @@ export const NavBar: any = () => {
   );
 
   return (
-    <BrowserRouter>
-      <Route path="/" exact component={App} />
-      <Route path="/discussions" exact component={Discussions} />
-      <div className={classes.grow}>
-        <AppBar style={{ backgroundColor: "white" }} position="static">
-          <Toolbar>
-            {/* <IconButton
+    <div className={classes.grow}>
+      <AppBar style={{ backgroundColor: "white" }} position="static">
+        <Toolbar>
+          {/* <IconButton
             edge="start"
             className={classes.menuButton}
             aria-label="open drawer"
           >
             <MenuIcon />
           </IconButton> */}
+          <Typography
+            style={{
+              fontFamily: "Courier",
+              fontWeight: "bold",
+              fontSize: 25
+            }}
+            className={classes.title}
+            variant="h6"
+            noWrap
+          >
+            <Link style={{ color: "#27b8b8" }} to="/">
+              Snages
+            </Link>
+            {/* <div>Snages</div> */}
+          </Typography>
+
+          <div
+            style={{
+              position: "relative",
+              display: "flex",
+              justifyContent: "space-between",
+              left: "50px",
+              width: "280px"
+            }}
+            className={classes.sectionDesktop}
+          >
             <Typography
               style={{
-                fontFamily: "Courier",
+                fontFamily: "Candara",
                 fontWeight: "bold",
-                fontSize: 25,
-                color: "#27b8b8"
+                fontSize: 20,
+                color: "black"
               }}
               className={classes.title}
               variant="h6"
               noWrap
             >
-              <div>Snages</div>
+              <Link style={{ color: "black" }} to="/discussions">
+                Discussions
+              </Link>
+
+              {/* <Tab label="Discussions" component={Link} to="/discussions" /> */}
+              {/* Discussions */}
             </Typography>
-
-            <div
+            <Typography
               style={{
-                position: "relative",
-                display: "flex",
-                justifyContent: "space-between",
-                left: "50px",
-                width: "280px"
+                fontFamily: "Candara",
+                fontWeight: "bold",
+                fontSize: 20,
+                color: "black"
               }}
-              className={classes.sectionDesktop}
+              className={classes.title}
+              variant="h6"
+              noWrap
             >
-              <Typography
-                style={{
-                  fontFamily: "Candara",
-                  fontWeight: "bold",
-                  fontSize: 20,
-                  color: "black"
-                }}
-                className={classes.title}
-                variant="h6"
-                noWrap
-              >
-                <Link to="/discussions">Discussions</Link>
-
-                {/* <Tab label="Discussions" component={Link} to="/discussions" /> */}
-                {/* Discussions */}
-              </Typography>
-              <Typography
-                style={{
-                  fontFamily: "Candara",
-                  fontWeight: "bold",
-                  fontSize: 20,
-                  color: "black"
-                }}
-                className={classes.title}
-                variant="h6"
-                noWrap
-              >
+              <Link style={{ color: "black" }} to="/services">
                 Services
-              </Typography>
-              <Typography
-                style={{
-                  fontFamily: "Candara",
-                  fontWeight: "bold",
-                  fontSize: 20,
-                  color: "black"
-                }}
-                className={classes.title}
-                variant="h6"
-                noWrap
-              >
-                Articles
-              </Typography>
-            </div>
-            <div className={classes.grow} />
-            <div
+              </Link>
+            </Typography>
+            <Typography
               style={{
-                position: "relative",
-                right: "10px"
+                fontFamily: "Candara",
+                fontWeight: "bold",
+                fontSize: 20,
+                color: "black"
               }}
-              className={classes.sectionDesktop}
+              className={classes.title}
+              variant="h6"
+              noWrap
             >
-              <IconButton
-                edge="end"
-                aria-label="account of current user"
-                aria-controls={menuId}
-                aria-haspopup="true"
-                onClick={handleProfileMenuOpen}
-                color="inherit"
-              >
-                <AccountCircle
-                  style={{
-                    color: "black",
-                    height: "30px",
-                    width: "30px"
-                  }}
-                />
-              </IconButton>
-            </div>
-            <div className={classes.sectionMobile}>
-              <IconButton
-                aria-label="show more"
-                aria-controls={mobileMenuId}
-                aria-haspopup="true"
-                onClick={handleMobileMenuOpen}
-                color="inherit"
-              >
-                <MoreIcon />
-              </IconButton>
-            </div>
-          </Toolbar>
-        </AppBar>
-        {renderMobileMenu}
-        {renderMenu}
-      </div>
-    </BrowserRouter>
+              <Link style={{ color: "black" }} to="/articles">
+                Articles
+              </Link>
+            </Typography>
+          </div>
+          <div className={classes.grow} />
+          <div
+            style={{
+              position: "relative",
+              right: "10px"
+            }}
+            className={classes.sectionDesktop}
+          >
+            <IconButton
+              edge="end"
+              aria-label="account of current user"
+              aria-controls={menuId}
+              aria-haspopup="true"
+              onClick={handleProfileMenuOpen}
+              color="inherit"
+            >
+              <AccountCircle
+                style={{
+                  color: "black",
+                  height: "30px",
+                  width: "30px"
+                }}
+              />
+            </IconButton>
+          </div>
+          <div className={classes.sectionMobile}>
+            <IconButton
+              aria-label="show more"
+              aria-controls={mobileMenuId}
+              aria-haspopup="true"
+              onClick={handleMobileMenuOpen}
+              color="inherit"
+            >
+              <MoreIcon />
+            </IconButton>
+          </div>
+        </Toolbar>
+      </AppBar>
+      {renderMobileMenu}
+      {renderMenu}
+    </div>
   );
 };
