@@ -34,8 +34,14 @@ export const Personal: React.FC<Props> = ({ history, location }) => {
     // <main className="container my-5">
     <div>
       <Advertisement />
-      <TableSelection historyProp={history} rowProp={rows} />
-      <PersonalTable row={location.state.rowProp} />
+      <TableSelection historyProp={history} rowProp={[]} appliedProp={rows} />
+      {/* <span>{JSON.stringify(rows)}</span> */}
+      <PersonalTable
+        row={location.state.rowProp}
+        onClick={rowData => {
+          setRows(prevState => [...prevState, rowData]);
+        }}
+      />
     </div>
   );
 };

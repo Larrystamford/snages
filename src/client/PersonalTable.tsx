@@ -33,9 +33,10 @@ interface TableState {
 
 interface Props {
   row: Array<{ Row }>;
+  onClick: (event: any, data: RowData | RowData[] | null) => void;
 }
 
-export const PersonalTable: React.FC<Props> = ({ row }) => {
+export const PersonalTable: React.FC<Props> = ({ row, onClick }) => {
   const [table, setTable] = React.useState<TableState>({
     columns: [
       { title: "Id", field: "id" },
@@ -119,6 +120,27 @@ export const PersonalTable: React.FC<Props> = ({ row }) => {
         }}
         actions={[
           {
+            icon: "done",
+            tooltip: "Applied",
+
+            onClick: (event, rowData) =>
+              new Promise(resolve => {
+                setTimeout(() => {
+                  resolve();
+                  onClick(rowData);
+                  setTable(prevState => {
+                    const data = [...prevState.data];
+                    console.log("personal", data);
+                    // console.log("personal", oldData);
+                    // splice(which index, how many to remove, new data)
+                    data.splice(data.indexOf(rowData), 1);
+                    data.push(rowData);
+                    return { ...prevState, data };
+                  });
+                }, 600);
+              })
+          },
+          {
             icon: "delete",
             tooltip: "Remove from list",
             onClick: (event, oldData) =>
@@ -131,7 +153,6 @@ export const PersonalTable: React.FC<Props> = ({ row }) => {
                     // console.log("personal", oldData);
                     // splice(which index, how many to remove, new data)
                     data.splice(data.indexOf(oldData), 1);
-
                     return { ...prevState, data };
                   });
                 }, 600);

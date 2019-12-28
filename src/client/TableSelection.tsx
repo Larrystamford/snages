@@ -13,9 +13,14 @@ import { Home } from "./Home";
 interface Props {
   historyProp: any;
   rowProp: any;
+  appliedProp: any;
 }
 
-export const TableSelection: React.FC<Props> = ({ historyProp, rowProp }) => {
+export const TableSelection: React.FC<Props> = ({
+  historyProp,
+  rowProp,
+  appliedProp
+}) => {
   console.log("table selection:", rowProp);
   const [personal, setPersonal] = useState(false);
 
@@ -60,7 +65,19 @@ export const TableSelection: React.FC<Props> = ({ historyProp, rowProp }) => {
             });
           }}
         >
-          Personal List
+          Personal
+        </button>
+        <button
+          onClick={() => {
+            historyProp.push({
+              pathname: "/listings/applied",
+              state: {
+                appliedProp
+              }
+            });
+          }}
+        >
+          Applied
         </button>
       </div>
     </main>

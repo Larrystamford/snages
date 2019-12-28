@@ -24,7 +24,7 @@ export const Home: React.FC<Props> = ({ history }) => {
   return (
     <div>
       <Advertisement />
-      <TableSelection historyProp={history} rowProp={rows} />
+      <TableSelection historyProp={history} rowProp={rows} appliedProp={[]} />
       {/* <pre>{JSON.stringify(rows)}</pre> */}
       <PostingsTable
         rows={...data}
