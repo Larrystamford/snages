@@ -16,6 +16,8 @@ import { Home } from "./Home";
 import { Personal } from "./Personal";
 import { Postings } from "./Postings";
 import { Applied } from "./Applied";
+import { Services } from "./Services";
+import { Articles } from "./Articles";
 import { Advertisement } from "./Advertisement";
 import { TableSelection } from "./TableSelection";
 import { BrowserRouter, Route, Link, Switch } from "react-router-dom";
@@ -35,6 +37,8 @@ const App = () => {
           <Route path="/listings/personal" exact component={Personal} />
           <Route path="/listings/applied" exact component={Applied} />
           <Route path="/discussions" exact component={Discussions} />
+          <Route path="/services" exact component={Services} />
+          <Route path="/articles" exact component={Articles} />
           <Route path="/tableselection" exact component={TableSelection} />
           {/* <Route path="/" render={() => <div>404 error</div>} /> */}
         </switch>

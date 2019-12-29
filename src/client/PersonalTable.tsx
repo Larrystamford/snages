@@ -4,11 +4,23 @@ import { makeStyles } from "@material-ui/core/styles";
 import { stat } from "fs";
 import { useEffect, useState } from "react";
 import { usePersonalTable } from "./usePersonalTable";
+import { TablePagination } from "@material-ui/core";
 
 const useStyles = makeStyles({
   table: {
     minWidth: 650
-  }
+  },
+  tableRow: {
+    "&$selected, &$selected:hover": {
+      backgroundColor: "purple"
+    }
+  },
+  tableCell: {
+    "$selected &": {
+      color: "yellow"
+    }
+  },
+  selected: {}
 });
 
 // interface Row {
@@ -54,7 +66,6 @@ export const PersonalTable: React.FC<Props> = ({ row, onClick }) => {
     // }]
     data: []
   });
-
   useEffect(() => {
     setTable(prevState => {
       const data = [...prevState.data];
@@ -85,6 +96,16 @@ export const PersonalTable: React.FC<Props> = ({ row, onClick }) => {
     <div className="container my-5">
       {/* <span>{JSON.stringify(table.data)}</span> */}
       <MaterialTable
+        components={{
+          Pagination: props => (
+            console.log(props),
+            (
+              <div>
+                <TablePagination {...props} />
+              </div>
+            )
+          )
+        }}
         title="Personal Table"
         columns={table.columns}
         // data={row.map(row => ({ ...row }))}
@@ -122,7 +143,6 @@ export const PersonalTable: React.FC<Props> = ({ row, onClick }) => {
           {
             icon: "done",
             tooltip: "Applied",
-
             onClick: (event, rowData) =>
               new Promise(resolve => {
                 setTimeout(() => {
@@ -130,7 +150,7 @@ export const PersonalTable: React.FC<Props> = ({ row, onClick }) => {
                   onClick(rowData);
                   setTable(prevState => {
                     const data = [...prevState.data];
-                    console.log("personal", data);
+                    console.log("personal", prevState);
                     // console.log("personal", oldData);
                     // splice(which index, how many to remove, new data)
                     data.splice(data.indexOf(rowData), 1);
