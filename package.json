@@ -28,7 +28,7 @@
     "formik": "^2.0.7",
     "material-table": "^1.54.1",
     "mysql": "^2.17.1",
-    "node-sass": "^4.13.0",
+    "node-sass": "^4.13.1",
     "react": "^16.11.0",
     "react-dom": "^16.11.0",
     "react-helmet": "^5.2.1",
